@@ -10,6 +10,7 @@ using Aphelion.Events;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Aphelion.Domain;
+using Aphelion.Systems;
 
 namespace Aphelion.Screens
 {
@@ -17,24 +18,35 @@ namespace Aphelion.Screens
     {
 
         private ContentManager Assets;
+        private LevelManager Level;
         private EventManager Events;
-        private Level CurrentLevel;
+
+        private Dictionary<SType, ISystem> Systems;
 
         public GameScreen(ContentManager assets, EventManager events)
         {
             Assets = assets;
             Events = events;
 
-            CurrentLevel = new Level(assets);
+            Level = new LevelManager(assets);
+            Systems = new Dictionary<SType, ISystem>();
+            InitSystems();
         }
+
+        private void InitSystems()
+        {
+            Systems[SType.Physics] = new SPhysics();
+            Systems[SType.Controller] = new SController();
+        }
+
         public void Update(GameTime delta, InputManager input)
         {
-            CurrentLevel.Update(delta, input);
+            Level.Update(delta, input);
         }
 
         public void Render(GameTime delta, ScreenManager screen)
         {
-            CurrentLevel.Render(delta, screen);
+            Level.Render(delta, screen);
         }
 
         public void Dispose()

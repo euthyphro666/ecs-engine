@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Aphelion.Domain
 {
-    public class Level
+    public class LevelManager : IDisposable
     {
 
         public ContentManager Assets;
@@ -21,7 +21,7 @@ namespace Aphelion.Domain
         public int Width;
         public int Height;
 
-        public Level(ContentManager assets)
+        public LevelManager(ContentManager assets)
         {
             Assets = assets;
             Width = 1024;
@@ -31,7 +31,7 @@ namespace Aphelion.Domain
             GenerateLevel();
         }
 
-        public void GenerateLevel()
+        private void GenerateLevel()
         {
             var rand = new Random();
             var asteroid = Assets.Load<Texture2D>("Asteroid");
@@ -49,20 +49,6 @@ namespace Aphelion.Domain
                 var y = (float) rand.NextDouble() * Height;
                 Nobs[i] = new Nob(tex, x, y, 32, 32);
             }
-        }
-
-
-        public void Update(GameTime delta, InputManager input)
-        {
-            Player.Update(delta, input);
-        }
-        public void Render(GameTime delta, ScreenManager screen)
-        {
-            for(int i = 0; i < Nobs.Length; i++)
-            {
-                Nobs[i].Render(screen);
-            }
-            Player.Render(delta, screen);
         }
 
         public void Dispose()

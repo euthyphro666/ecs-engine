@@ -18,9 +18,10 @@ namespace Aphelion.IO
         /// ie Index 0 = Player 1, etc.
         /// </summary>
         private Controls[] PlayerControls;
-        private PlayerIndex KeyboardPlayer;
-
         private EventManager events;
+
+        private PlayerIndex KeyboardPlayer;
+        private KeyboardState KState;
 
         public InputManager(EventManager ev)
         {
@@ -43,7 +44,6 @@ namespace Aphelion.IO
             }
         }
 
-        private KeyboardState KState;
 
         public bool IsKeyDown(PlayerIndex player, Keys key)
         {
